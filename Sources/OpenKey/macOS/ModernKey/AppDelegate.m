@@ -93,7 +93,7 @@ extern bool convertToolDontAlertWhenCompleted;
 
 -(void)askPermission {
     NSAlert *alert = [[NSAlert alloc] init];
-    [alert setMessageText: [NSString stringWithFormat:@"OpenKey cần bạn cấp quyền để có thể hoạt động!"]];
+    [alert setMessageText: [NSString stringWithFormat:@"VNKey cần bạn cấp quyền để có thể hoạt động!"]];
     [alert setInformativeText:@"Vui lòng chạy lại ứng dụng sau khi cấp quyền."];
 
     [alert addButtonWithTitle:@"Không"];
@@ -128,7 +128,7 @@ extern bool convertToolDontAlertWhenCompleted;
     BOOL alreadyRunning = NO;
 
     for (NSRunningApplication *app in runningApps) {
-        if ([app.bundleIdentifier isEqualToString:OPENKEY_BUNDLE] &&
+        if ([app.bundleIdentifier isEqualToString:VNKEY_BUNDLE] &&
             app.processIdentifier != myPID) {
             pid_t pid = app.processIdentifier;
             struct proc_bsdinfo proc;
@@ -320,7 +320,7 @@ extern bool convertToolDontAlertWhenCompleted;
 }
 
 -(void)setRunOnStartup:(BOOL)val {
-    CFStringRef appId = (__bridge CFStringRef)@"com.tuyenmai.OpenKeyHelper";
+    CFStringRef appId = (__bridge CFStringRef)@"vn.ketviet.vnkey.helper";
     SMLoginItemSetEnabled(appId, val);
 }
 
@@ -493,7 +493,7 @@ extern bool convertToolDontAlertWhenCompleted;
 
 -(void) onControlPanelSelected {
     if (_mainWC == nil) {
-        _mainWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"OpenKey"];
+        _mainWC = [[NSStoryboard storyboardWithName:@"Main" bundle:nil] instantiateControllerWithIdentifier:@"VNKey"];
     }
     //[OpenKeyManager showDockIcon:YES];
     if ([_mainWC.window isVisible]) {

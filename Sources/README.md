@@ -1,4 +1,5 @@
-# OpenKey
-### Open source Vietnamese Input App for macOS
-Check out source for macOS, Windows and engine.   
-Linux version is under construction. 
+# Sources
+
+- **VNKey** (macOS) — phát triển bởi [KétViệt](https://ketviet.vn), Xcode: `OpenKey/macOS/VNKey.xcodeproj`
+- **Engine** — `OpenKey/engine/` (C++, kế thừa từ OpenKey)
+- **Windows / Linux** — chưa rebrand

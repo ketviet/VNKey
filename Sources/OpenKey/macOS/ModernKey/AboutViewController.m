@@ -1,13 +1,11 @@
 //
 //  AboutViewController.m
-//  OpenKey
-//
-//  Created by Tuyen on 2/15/19.
-//  Copyright © 2019 Tuyen Mai. All rights reserved.
+//  VNKey — KétViệt (ketviet.vn)
 //
 
 #import "AboutViewController.h"
 #import "OpenKeyManager.h"
+#import "VNKeyBranding.h"
 
 @interface AboutViewController ()
 
@@ -17,9 +15,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do view setup here.
     
-    self.VersionInfo.stringValue = [NSString stringWithFormat:@"Phiên bản %@ (build %@) - Ngày cập nhật %@",
+    self.VersionInfo.stringValue = [NSString stringWithFormat:@"Phiên bản %@ (build %@) — KétViệt · Ngày build %@",
                                     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"],
                                     [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleVersion"],
                                     [OpenKeyManager getBuildDate]] ;
@@ -29,15 +26,15 @@
 }
 
 - (IBAction)onHomePage:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/tuyenvm/OpenKey"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:VNKEY_HOMEPAGE_URL]];
 }
 
 - (IBAction)onFanPage:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.facebook.com/OpenKeyVN"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:VNKEY_HOMEPAGE_URL]];
 }
 
 - (IBAction)onLatestReleaseVersion:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/tuyenvm/OpenKey/releases"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:VNKEY_HOMEPAGE_URL]];
 }
 
 - (IBAction)onCheckUpdateOnStartup:(NSButton *)sender {

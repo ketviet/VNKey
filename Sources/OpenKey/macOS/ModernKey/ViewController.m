@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "OpenKeyManager.h"
+#import "VNKeyBranding.h"
 #import "AppDelegate.h"
 #import "MyTextField.h"
 
@@ -107,7 +108,7 @@ extern int vPerformLayoutCompat;
 
 - (void)viewDidAppear {
     [super viewDidAppear];
-    NSString* str = @"OpenKey %@ - Bộ gõ Tiếng Việt";
+    NSString* str = @"VNKey %@ — Bộ gõ Tiếng Việt · KétViệt";
     self.view.window.title = [NSString stringWithFormat:str, [[NSBundle mainBundle] objectForInfoDictionaryKey: @"CFBundleShortVersionString"]];
 }
 
@@ -510,19 +511,19 @@ extern int vPerformLayoutCompat;
 }
 
 - (IBAction)onHomePageLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://open-key.org"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:VNKEY_HOMEPAGE_URL]];
 }
 
 - (IBAction)onFanpageLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://www.facebook.com/OpenKeyVN"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:VNKEY_HOMEPAGE_URL]];
 }
 
 - (IBAction)onEmailLink:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"mailto:maivutuyen.91@gmail.com"]];
+    [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:[NSString stringWithFormat:@"mailto:%@", VNKEY_CONTACT_EMAIL]]];
 }
 
 - (IBAction)onSourceCode:(id)sender {
-  [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:@"https://github.com/tuyenvm/OpenKey"]];
+  [[NSWorkspace sharedWorkspace] openURL: [NSURL URLWithString:VNKEY_OPENKEY_ATTRIBUTION]];
 }
 
 - (IBAction)onCheckNewVersionButton:(id)sender {
