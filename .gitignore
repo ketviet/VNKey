@@ -9,3 +9,6 @@
 /Sources/OpenKey/win32/OpenKey/OpenKey/x64/Release
 /Sources/OpenKey/win32/OpenKey/OpenKeyUpdate/x64/Release
 /dist/
+/Sources/OpenKey/engine/*.o
+/Sources/OpenKey/linux/vnkey-cli
+/Sources/OpenKey/linux/*.o

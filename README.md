@@ -1,97 +1,76 @@
 # VNKey
 
-### [Tải bản mới nhất cho macOS](https://github.com/ketviet/VNKey/releases/latest)
+### [Tải bản mới nhất](https://github.com/ketviet/VNKey/releases/latest)
 [![GitHub release](https://img.shields.io/github/v/release/ketviet/VNKey.svg)](https://github.com/ketviet/VNKey/releases/latest)
 
-**Bộ gõ tiếng Việt cho macOS** — phát triển bởi [KétViệt](https://ketviet.vn).
+**Bộ gõ tiếng Việt** — phát triển bởi [KétViệt](https://ketviet.vn). Dựa trên [OpenKey](https://github.com/tuyenvm/OpenKey) (GPL v3).
 
-| Nền tảng | Cài đặt |
-|----------|---------|
-| **macOS** | [Tải `.zip` từ Releases](https://github.com/ketviet/VNKey/releases/latest) — giải nén, kéo `VNKey.app` vào Applications |
-| **Windows** | Chưa có bản phát hành — [tự build](Windows_Build.md) |
-| **Linux** | Chưa có bản phát hành — [tự build](Linux_Build.md) |
+| Nền tảng | Tải & cài đặt |
+|----------|----------------|
+| **macOS** | [`VNKey-macOS.zip`](https://github.com/ketviet/VNKey/releases/latest) — giải nén → kéo `VNKey.app` vào Applications → bật quyền Accessibility |
+| **Windows** | [`VNKey-Windows-x64.zip`](https://github.com/ketviet/VNKey/releases/latest) — giải nén → chạy `VNKey.exe` (quyền Admin nếu Windows hỏi) |
+| **Linux** | [`VNKey-Linux-x64.tar.gz`](https://github.com/ketviet/VNKey/releases/latest) — **preview CLI** engine Telex (`./vnkey-cli`); chưa phải bộ gõ hệ thống IBus/Fcitx |
+
+Tự build từ mã nguồn: [macOS](macOS_Build.md) · [Windows](Windows_Build.md) · [Linux](Linux_Build.md)
 
 ---
 
-## Cài đặt nhanh (macOS)
+## Cài đặt nhanh
 
-1. Tải `VNKey-*-macOS.zip` từ [Releases](https://github.com/ketviet/VNKey/releases/latest)
-2. Giải nén → kéo **VNKey.app** vào **Applications**
-3. Mở VNKey → cấp quyền **Accessibility** (System Settings → Privacy & Security)
-4. Tắt bộ gõ khác (OpenKey, Unikey, EVKey…) để tránh xung đột
+### macOS
+1. Tải `VNKey-macOS.zip` từ [Releases](https://github.com/ketviet/VNKey/releases/latest)
+2. Kéo **VNKey.app** → **Applications**
+3. System Settings → Privacy & Security → **Accessibility** → bật VNKey
+4. Tắt bộ gõ khác (OpenKey, Unikey, EVKey…)
 
-Tự build từ mã nguồn: [macOS_Build.md](macOS_Build.md)
+### Windows
+1. Tải `VNKey-Windows-x64.zip`
+2. Giải nén → chạy **VNKey.exe**
+3. Biểu tượng **V** trên system tray → double-click mở bảng điều khiển
+
+### Linux (preview)
+1. Tải `VNKey-Linux-x64.tar.gz`, giải nén
+2. `chmod +x vnkey-cli && ./vnkey-cli`
+3. Nhập Telex (vd: `vieejt nam`) để kiểm tra engine
+
+> Bộ gõ desktop Linux (IBus/Fcitx) đang phát triển. CLI hiện tại chỉ để xác minh engine trên Linux.
 
 ---
 
 ## Dựa trên OpenKey
 
-**VNKey là fork và phát triển tiếp từ [OpenKey](https://github.com/tuyenvm/OpenKey)** — bộ gõ tiếng Việt mã nguồn mở của Mai Vũ Tuyên.
+**VNKey fork từ [OpenKey](https://github.com/tuyenvm/OpenKey)** — Mai Vũ Tuyên.
 
 | | OpenKey (gốc) | VNKey (KétViệt) |
 |---|---|---|
-| Tác giả gốc | [Mai Vũ Tuyên](https://github.com/tuyenvm/OpenKey) | [KétViệt](https://ketviet.vn) |
-| macOS | Có | **Có** — bản release chính thức |
-| Windows | Có (OpenKey.exe) | Mã nguồn có — [tự build](Windows_Build.md) |
-| Linux | Đang phát triển | Mã nguồn có — [tự build](Linux_Build.md) |
-| Engine | C++ (`Sources/OpenKey/engine/`) | Kế thừa engine OpenKey |
-| Giấy phép | GPL v3 | GPL v3 (bắt buộc kế thừa từ OpenKey) |
-
-Theo **GPL v3**, khi phân phối VNKey bạn phải công khai mã nguồn, ghi rõ dựa trên OpenKey, và giữ license GPL v3.
+| macOS | Có | **Có** — release chính thức |
+| Windows | Có | **Có** — `VNKey.exe` (engine OpenKey) |
+| Linux | Đang phát triển | **Preview CLI** + engine build |
+| Giấy phép | GPL v3 | GPL v3 |
 
 ---
 
-## Tính năng
+## Tính năng (macOS / Windows)
 
-- Kiểu gõ: **Telex**, **VNI**, **Simple Telex**
-- Bảng mã: Unicode, TCVN3, VNI Windows, Unicode tổ hợp, CP1258
-- Kiểm tra chính tả & ngữ pháp, Quick Telex, macro, chuyển mã
-- Smart Switch, nhớ bảng mã theo ứng dụng
-- Sửa lỗi event tap (macOS) — tự bật lại hook khi bị hệ thống tắt
+- Telex, VNI, Simple Telex · Unicode, TCVN3, VNI, Unicode tổ hợp, CP1258
+- Kiểm tra chính tả, macro, chuyển mã, Smart Switch
+- macOS: sửa event tap bị hệ thống tắt
 
 ---
 
-## Hướng dẫn build theo nền tảng
-
-| Nền tảng | Tài liệu |
-|----------|----------|
-| macOS | [macOS_Build.md](macOS_Build.md) |
-| Windows | [Windows_Build.md](Windows_Build.md) |
-| Linux | [Linux_Build.md](Linux_Build.md) |
-
----
-
-## Thông tin sản phẩm
+## Thông tin
 
 | | |
 |---|---|
-| **App** | VNKey |
-| **Phát triển** | [KétViệt](https://ketviet.vn) |
-| **Website** | https://ketviet.vn |
-| **Liên hệ** | contact@ketviet.vn |
-| **Bundle ID (macOS)** | `vn.ketviet.vnkey` |
-| **Repo** | https://github.com/ketviet/VNKey |
+| Phát triển | [KétViệt](https://ketviet.vn) |
+| Liên hệ | contact@ketviet.vn |
+| Bundle ID (macOS) | `vn.ketviet.vnkey` |
 
 ---
 
-## Cấu trúc mã nguồn
+## Credit & License
 
-```
-VNKey/
-├── Sources/OpenKey/engine/     # Engine C++ (từ OpenKey)
-├── Sources/OpenKey/macOS/      # VNKey.app — VNKey.xcodeproj
-├── Sources/OpenKey/win32/      # Shell Windows (tự build)
-├── Sources/OpenKey/linux/      # Shell Linux (đang phát triển)
-├── macOS_Build.md
-├── Windows_Build.md
-└── Linux_Build.md
-```
+**GPL v3** — [LICENSE](LICENSE)
 
----
-
-## Giấy phép & Credit
-
-**GPL v3** — xem [LICENSE](LICENSE).
-
-- **[OpenKey](https://github.com/tuyenvm/OpenKey)** — Mai Vũ Tuyên. Engine và thuật toán gõ tiếng Việt.
-- **[KétViệt](https://ketviet.vn)** — Phát triển, bảo trì và phát hành VNKey (macOS).
+- [OpenKey](https://github.com/tuyenvm/OpenKey) — Mai Vũ Tuyên
+- [KétViệt](https://ketviet.vn) — VNKey

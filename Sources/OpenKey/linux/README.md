@@ -1,4 +1,10 @@
-# OpenKey
-### Open source Vietnamese Input App for Linux
-Coming soon.   
-Take a look at: [https://www.youtube.com/watch?v=NjpirdDo-nY](https://www.youtube.com/watch?v=NjpirdDo-nY)
+# VNKey — Linux
+
+**Preview CLI** engine Telex. Chưa phải bộ gõ IBus/Fcitx.
+
+- Tải bản build: [GitHub Releases](https://github.com/ketviet/VNKey/releases/latest) → `VNKey-Linux-x64.tar.gz`
+- Hướng dẫn đầy đủ: [Linux_Build.md](../../../Linux_Build.md) (thư mục gốc repo)
+
+```bash
+make && ./vnkey-cli
+```

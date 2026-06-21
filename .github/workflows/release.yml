@@ -1,0 +1,122 @@
+name: Release Build
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: microsoft/setup-msbuild@v2
+
+      - name: Build x64 Release
+        run: msbuild -m -t:Rebuild -p:Configuration=Release -p:Platform=x64 Sources/OpenKey/win32/OpenKey/OpenKey.sln
+
+      - name: Package Windows x64
+        shell: pwsh
+        run: |
+          $out = "dist/VNKey-Windows-x64"
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+          Copy-Item Sources/OpenKey/win32/OpenKey/x64/Release/OpenKey.exe $out/VNKey.exe
+          Copy-Item Sources/OpenKey/win32/OpenKey/x64/Release/OpenKeyUpdate.exe $out/VNKeyUpdate.exe -ErrorAction SilentlyContinue
+          Copy-Item LICENSE $out/
+          Copy-Item Windows_Build.md $out/
+          Compress-Archive -Path $out/* -DestinationPath dist/VNKey-Windows-x64.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VNKey-Windows-x64
+          path: dist/VNKey-Windows-x64.zip
+
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: sudo apt-get update && sudo apt-get install -y g++ make
+
+      - name: Build Linux CLI (engine preview)
+        working-directory: Sources/OpenKey/linux
+        run: make
+
+      - name: Package Linux x64
+        run: |
+          mkdir -p dist/VNKey-Linux-x64
+          cp Sources/OpenKey/linux/vnkey-cli dist/VNKey-Linux-x64/
+          cp LICENSE dist/VNKey-Linux-x64/
+          cp Linux_Build.md dist/VNKey-Linux-x64/
+          cat > dist/VNKey-Linux-x64/README.txt << 'EOF'
+          VNKey Linux — engine preview (CLI)
+          ===================================
+          Day la ban xem truoc engine Telex tren Linux, CHUA phai bo go he thong.
+
+          Chay: ./vnkey-cli
+          Nhap Telex (vd: vieejt nam), Enter de thoat.
+
+          IBus/Fcitx integration dang phat trien.
+          EOF
+          tar -czf dist/VNKey-Linux-x64.tar.gz -C dist VNKey-Linux-x64
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VNKey-Linux-x64
+          path: dist/VNKey-Linux-x64.tar.gz
+
+  build-macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build VNKey Release
+        working-directory: Sources/OpenKey/macOS
+        run: xcodebuild -project VNKey.xcodeproj -scheme VNKey -configuration Release CODE_SIGN_IDENTITY="-" CODE_SIGN_STYLE=Manual build
+
+      - name: Package macOS
+        run: |
+          APP=$(find ~/Library/Developer/Xcode/DerivedData -name VNKey.app -path '*/Release/*' | head -1)
+          mkdir -p dist
+          ditto -c -k --sequesterRsrc --keepParent "$APP" dist/VNKey-macOS.zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: VNKey-macOS
+          path: dist/VNKey-macOS.zip
+
+  attach-release:
+    needs: [build-windows, build-linux, build-macos]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view "${GITHUB_REF_NAME}" 2>/dev/null || \
+            gh release create "${GITHUB_REF_NAME}" \
+              --title "VNKey ${GITHUB_REF_NAME#v}" \
+              --notes "Multi-platform release. See README for install instructions."
+
+      - name: Upload to GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload "${GITHUB_REF_NAME}" \
+            artifacts/VNKey-Windows-x64/VNKey-Windows-x64.zip \
+            artifacts/VNKey-Linux-x64/VNKey-Linux-x64.tar.gz \
+            artifacts/VNKey-macOS/VNKey-macOS.zip \
+            --clobber

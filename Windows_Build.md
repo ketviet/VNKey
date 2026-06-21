@@ -1,64 +1,34 @@
-# Build VNKey trên Windows
+# Build / cài đặt VNKey trên Windows
 
-**VNKey** hiện **chưa phát hành bản cài sẵn cho Windows**. Bạn cần tự build từ mã nguồn.
+## Tải bản build sẵn (khuyến nghị)
 
-Phần Windows kế thừa shell **OpenKey for Windows** (chưa rebrand UI). Engine gõ tiếng Việt dùng chung trong `Sources/OpenKey/engine/`.
+Tải [`VNKey-Windows-x64.zip`](https://github.com/ketviet/VNKey/releases/latest) từ GitHub Releases.
+
+1. Giải nén thư mục
+2. Chạy **VNKey.exe** (Windows có thể hỏi quyền Administrator — cần cho gõ trong game)
+3. Biểu tượng **V** trên system tray → double-click mở bảng điều khiển
+4. Tắt bộ gõ khác (Unikey, EVKey…) để tránh xung đột
+
+> Shell Windows kế thừa từ OpenKey; file exe được đặt tên **VNKey.exe** trong bản release.
 
 ---
 
-## Yêu cầu
+## Tự build từ mã nguồn
 
-- Windows 10 trở lên (Vista+ theo OpenKey gốc)
-- [Visual Studio 2017](https://visualstudio.microsoft.com/) trở lên
-- Workload: **Desktop development with C++**
+### Yêu cầu
+
+- Windows 10+
+- [Visual Studio 2017+](https://visualstudio.microsoft.com/) với **Desktop development with C++**
 - Windows 10 SDK
 
----
+### Visual Studio
 
-## Các bước build
+1. Clone repo, mở `Sources\OpenKey\win32\OpenKey\OpenKey.sln`
+2. Configuration: **Release**, Platform: **x64**
+3. **Build → Rebuild Solution**
+4. Output: `Sources\OpenKey\win32\OpenKey\x64\Release\OpenKey.exe`
 
-### 1. Clone mã nguồn
-
-```powershell
-git clone https://github.com/ketviet/VNKey.git
-cd VNKey
-```
-
-### 2. Mở solution
-
-Mở file:
-
-```
-Sources\OpenKey\win32\OpenKey\OpenKey.sln
-```
-
-bằng Visual Studio.
-
-### 3. Chọn cấu hình
-
-- **Configuration:** `Release`
-- **Platform:** `x64` (khuyến nghị) hoặc `x86`
-
-### 4. Build
-
-Menu **Build → Rebuild Solution** (hoặc `Ctrl+Shift+B`).
-
-Output nằm tại:
-
-```
-Sources\OpenKey\win32\OpenKey\x64\Release\OpenKey.exe
-```
-
-(hoặc `Release\OpenKey.exe` với platform x86)
-
-### 5. Chạy thử
-
-- Chạy `OpenKey.exe` — Windows có thể hỏi quyền Administrator (cần cho gõ trong game)
-- Biểu tượng **V** trên system tray → double-click mở bảng điều khiển
-
----
-
-## Build bằng dòng lệnh (MSBuild)
+### MSBuild (dòng lệnh)
 
 ```powershell
 cd Sources\OpenKey\win32\OpenKey
@@ -67,15 +37,11 @@ msbuild OpenKey.sln /p:Configuration=Release /p:Platform=x64 /t:Rebuild
 
 ---
 
-## Lưu ý
+## Giấy phép
 
-- **Tên file output** vẫn là `OpenKey.exe` (chưa rebrand Windows). App macOS mới mang tên VNKey.
-- Tắt bộ gõ khác (Unikey, EVKey…) khi dùng để tránh xung đột.
-- Mã nguồn **GPL v3** — nếu phân phối bản build của bạn, phải công khai mã nguồn và ghi credit [OpenKey](https://github.com/tuyenvm/OpenKey) gốc.
+GPL v3 — fork từ [OpenKey](https://github.com/tuyenvm/OpenKey). Phân phối bản build phải công khai mã nguồn.
 
----
+## Liên hệ
 
-## Báo lỗi / đóng góp
-
-- Issue: https://github.com/ketviet/VNKey/issues
-- Website: https://ketviet.vn
+- https://ketviet.vn
+- https://github.com/ketviet/VNKey/issues
