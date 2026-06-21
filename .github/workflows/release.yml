@@ -25,11 +25,14 @@ jobs:
         run: |
           $out = "dist/VNKey-Windows-x64"
           New-Item -ItemType Directory -Force -Path $out | Out-Null
-          Copy-Item Sources/OpenKey/win32/OpenKey/x64/Release/OpenKey.exe $out/VNKey.exe
-          Copy-Item Sources/OpenKey/win32/OpenKey/x64/Release/OpenKeyUpdate.exe $out/VNKeyUpdate.exe -ErrorAction SilentlyContinue
+          $main = Get-ChildItem -Path Sources/OpenKey/win32 -Recurse -Filter "OpenKey64.exe" | Select-Object -First 1
+          if (-not $main) { throw "OpenKey64.exe not found after build" }
+          Copy-Item $main.FullName "$out/VNKey.exe"
+          $updater = Get-ChildItem -Path Sources/OpenKey/win32 -Recurse -Filter "OpenKeyUpdate64.exe" -ErrorAction SilentlyContinue | Select-Object -First 1
+          if ($updater) { Copy-Item $updater.FullName "$out/VNKeyUpdate.exe" }
           Copy-Item LICENSE $out/
           Copy-Item Windows_Build.md $out/
-          Compress-Archive -Path $out/* -DestinationPath dist/VNKey-Windows-x64.zip
+          Compress-Archive -Path "$out/*" -DestinationPath dist/VNKey-Windows-x64.zip -Force
 
       - uses: actions/upload-artifact@v4
         with:
@@ -94,7 +97,7 @@ jobs:
   attach-release:
     needs: [build-windows, build-linux, build-macos]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v') && !cancelled()
     steps:
       - uses: actions/checkout@v4
 
