@@ -535,7 +535,11 @@ extern bool convertToolDontAlertWhenCompleted;
 
 #pragma mark Reset OpenKey after mac computer awake
 -(void)receiveWakeNote: (NSNotification*)note {
-    [OpenKeyManager initEventTap];
+    if ([OpenKeyManager isInited]) {
+        [OpenKeyManager reenableEventTap];
+    } else {
+        [OpenKeyManager initEventTap];
+    }
 }
 
 -(void)receiveSleepNote: (NSNotification*)note {
